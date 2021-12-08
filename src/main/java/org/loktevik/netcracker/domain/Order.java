@@ -1,13 +1,19 @@
 package org.loktevik.netcracker.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name="orders")
+@Table(name="ORDERS")
 @Data
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@AllArgsConstructor
+@NoArgsConstructor
 public class Order {
 
     @Id
@@ -15,11 +21,12 @@ public class Order {
     private Long id;
     private Long offerId;
     private String name;
-    private Date deliveryTime;
+    private LocalDateTime deliveryTime;
+    private Integer amount;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     private Status status;
     private Long customerId;
-    private boolean paid;
+    private Boolean paid;
 }

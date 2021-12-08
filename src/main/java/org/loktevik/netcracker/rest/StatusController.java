@@ -44,9 +44,18 @@ public class StatusController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("{id}")
+    @PutMapping
     public ResponseEntity<Status> updateStatus(@RequestBody Status status){
         statusService.updateStatus(status);
+
+        return new ResponseEntity<>(status, HttpStatus.OK);
+    }
+
+    @PostMapping("data")
+    public ResponseEntity<Status> sendStatus(){
+        Status status = new Status();
+        status.setName("Доставка");
+        statusService.saveStatus(status);
 
         return new ResponseEntity<>(status, HttpStatus.OK);
     }

@@ -10,6 +10,8 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Long> {
     Order getById(Long id);
 
+    List<Order> getAllByCustomerId(Long id);
+
     List<Order> findAll();
 
     Order save(Order order);

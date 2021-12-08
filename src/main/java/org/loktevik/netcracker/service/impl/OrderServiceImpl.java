@@ -8,29 +8,40 @@ import org.loktevik.netcracker.domain.Status;
 import org.loktevik.netcracker.repository.OrderRepository;
 import org.loktevik.netcracker.repository.StatusRepository;
 import org.loktevik.netcracker.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @Transactional
 public class OrderServiceImpl implements OrderService {
     private final Logger log = Logger.getLogger(OrderServiceImpl.class);
-    private final OrderRepository orderRepo;
-    private final StatusRepository statusRepo;
+
+    @Autowired
+    private OrderRepository orderRepo;
+
+    @Autowired
+    private StatusRepository statusRepo;
 
     @Override
     public Order getById(Long id) {
         log.info(new FormattedMessage("Getting order with id {}.", id));
-        return orderRepo.getById(id);
+        Order order = orderRepo.getById(id);
+        return order;
     }
 
     @Override
     public List<Order> getAll() {
         log.info("Getting all orders.");
         return orderRepo.findAll();
+    }
+
+    @Override
+    public List<Order> getByCustomerId(Long id) {
+        return orderRepo.getAllByCustomerId(id);
     }
 
     @Override

@@ -9,6 +9,8 @@ public interface OrderService {
 
     List<Order> getAll();
 
+    List<Order> getByCustomerId(Long id);
+
     Order saveOrder(Order order);
 
     Order setStatus(Long orderId, Long statusId);

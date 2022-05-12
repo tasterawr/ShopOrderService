@@ -14,8 +14,8 @@ public class Runner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Status status1 = new Status(null, "Ожидает оплаты");
-        Status status2 = new Status(null, "Оплачен. В доставке");
-        Status status3 = new Status(null, "Получен");
+        Status status2 = new Status(null, "В процессе доставки");
+        Status status3 = new Status(null, "Заказ доставлен");
 
         statusService.saveStatus(status1);
         statusService.saveStatus(status2);

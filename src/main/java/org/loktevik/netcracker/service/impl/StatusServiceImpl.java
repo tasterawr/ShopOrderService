@@ -8,13 +8,23 @@ import org.loktevik.netcracker.repository.StatusRepository;
 import org.loktevik.netcracker.service.StatusService;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
+/**
+ * Service implementation class for Status model. Implements methods from StatusService.
+ */
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class StatusServiceImpl implements StatusService {
     private final Logger log = Logger.getLogger(StatusServiceImpl.class);
     private final StatusRepository statusRepo;
+
+    @Override
+    public Status getByName(String name) {
+        return statusRepo.findByName(name);
+    }
 
     @Override
     public Status saveStatus(Status status) {

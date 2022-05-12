@@ -12,19 +12,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Service implementation class for Order model. Implements methods from OrderService.
+ */
 @Service
-//@RequiredArgsConstructor
 @Transactional
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     private final Logger log = Logger.getLogger(OrderServiceImpl.class);
-
-    @Autowired
-    private OrderRepository orderRepo;
-
-    @Autowired
-    private StatusRepository statusRepo;
+    private final OrderRepository orderRepo;
+    private final StatusRepository statusRepo;
 
     @Override
     public Order getById(Long id) {
@@ -66,6 +66,19 @@ public class OrderServiceImpl implements OrderService {
         log.info(new FormattedMessage("Updating order with id: {}.", order.getId()));
         orderRepo.save(order);
         return order;
+    }
+
+    @Override
+    public void updateOrdersStatuses() {
+        LocalDateTime now = LocalDateTime.now();
+        List<Order> orders = orderRepo.findAll();
+        orders.forEach(order -> {
+            if (order.getDeliveryTime().isBefore(now) ||
+                    order.getDeliveryTime().isEqual(now)){
+                order.setStatus(statusRepo.findByName("Заказ доставлен"));
+                saveOrder(order);
+            }
+        });
     }
 
     @Override

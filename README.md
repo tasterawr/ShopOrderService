@@ -1,2 +1,2 @@
 # ShopOrderService
-Repository for Netcracker Practice Spring project's Order service.
+Repository for Practice Spring project's Order service.

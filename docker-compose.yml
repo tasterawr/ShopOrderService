@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+  order-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      db-url: jdbc:postgresql://order-db:5434/ORDER_SERVICE_DB
+      db-username: root
+      db-password: root
+    depends_on:
+      - order-db
+    ports:
+      - "8083:8083"
+    networks:
+      - clientservice_default
+    restart: always
+
+  order-db:
+    image: postgres
+    ports:
+      - "5434:5434"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: ORDER_SERVICE_DB
+    volumes:
+      - ./db-init-scripts:/docker-entrypoint-initdb.d
+    restart: always
+    networks:
+      - clientservice_default
+
+networks:
+  clientservice_default:
+    external: true
